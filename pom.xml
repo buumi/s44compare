@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example</groupId>
 	<artifactId>s44compare</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>S44Compare</name>
 	<description>Demo project for Spring Boot</description>
@@ -41,6 +41,12 @@
 			<version>2.5</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.codehaus.cargo</groupId>
+			<artifactId>cargo-maven2-plugin</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -49,8 +55,46 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<configuration>
+
+					<!-- Container configuration -->
+					<container>
+						<containerId>tomcat8x</containerId>
+						<type>remote</type>
+					</container>
+
+					<!-- Configuration to use with the container (which will also configure the deployer) -->
+					<configuration>
+						<type>runtime</type>
+						<properties>
+							<cargo.hostname>localhost</cargo.hostname>
+							<cargo.servlet.port>8080</cargo.servlet.port>
+							<cargo.remote.username>username</cargo.remote.username>
+							<cargo.remote.password>password</cargo.remote.password>
+						</properties>
+					</configuration>
+
+					<!-- Deployables configuration -->
+					<deployables>
+						<deployable>
+							<groupId>com.example</groupId>
+							<artifactId>s44compare</artifactId>
+							<type>war</type>
+							<properties>
+								<context>/s44compare</context>
+							</properties>
+						</deployable>
+					</deployables>
+
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
 
 
 </project>

@@ -18,9 +18,11 @@ public class UnitService {
 
     @PostConstruct
     public void init() {
-        File file = new File("defs.txt");
+
+        File file = null;
 
         try {
+            file = File.createTempFile("unitDef_tomcat", ".txt");
             FileUtils.copyInputStreamToFile(getClass().getResourceAsStream("/static/defs.txt"), file);
         } catch (IOException e) {
             System.out.println("Could not copy defs.txt to file. Aborting program..");
